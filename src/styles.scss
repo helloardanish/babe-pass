@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --font-primary: 'Roboto', sans-serif;      /* Default font */
+  --font-secondary: 'Poppins', sans-serif; /* Secondary font */
+  --font-tertiary: 'Montserrat', serif;            /* Tertiary font */
+  --special-font-1: "Playwrite IT Moderna", serif;
+}
+
+body {
+  font-family: var(--font-primary), serif; /* Default font for the whole website */
+}
