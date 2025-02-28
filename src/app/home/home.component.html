@@ -1,5 +1,140 @@
-<p>home works!</p>
-<p>This text uses the default font (Roboto).</p>
-<p class="secondary-font primary-color">This text uses Poppins.</p>
-<p class="tertiary-font accent-color">This text uses Montserrat.</p>
-<p class="special-font-1">This text uses Playwrite IT Moderna.</p>
+<div class="site-container">
+  <!-- Add New Site and Import Buttons -->
+  <div class="action-buttons">
+    <p-button label="Add New Site" severity="success" (onClick)="openAddDialog()" />
+    <p-button label="Import Data" severity="info" (onClick)="openImportDialog()" />
+    <p-button label="Download Data" severity="help" (onClick)="downloadExcel()" />
+  </div>
+
+  <!-- Site Cards -->
+  <div *ngFor="let site of siteDetails; let i = index" class="site-card" [ngStyle]="{'background-color': getRandomColor(i)}">
+    <p-card>
+      <div class="site-name">{{ site.name }}</div>
+      <div class="site-url">{{ site.url }}</div>
+      <div class="button-group site-item">
+        <p-button label="View Username" severity="secondary" [outlined]="true" (onClick)="openUsernameDialog(site)" />
+        <p-button label="View Email" severity="secondary" [outlined]="true" (onClick)="openEmailDialog(site)" />
+        <p-button label="View Password" severity="secondary" [outlined]="true" (onClick)="openPasswordDialog(site)" />
+        <a [href]="site.url" target="_blank" rel="noopener noreferrer" class="open-link">Open</a>
+        <p-button label="Update" severity="warn" [outlined]="true" (onClick)="openUpdateDialog(site)" />
+        <p-button label="Remove" severity="danger" [outlined]="true" (onClick)="openRemoveConfirmationDialog(i)" />
+      </div>
+    </p-card>
+  </div>
+</div>
+
+<!-- Username Dialog -->
+<p-dialog header="Username" [(visible)]="displayUsernameDialog" [modal]="true" [style]="{ width: '400px' }">
+  <div class="dialog-content">
+    <p>{{ selectedSite.username }}</p>
+    <div class="dialog-actions">
+      <p-button label="Copy" severity="secondary" (onClick)="copyToClipboard(selectedSite.username)" />
+      <p-button label="Close" severity="primary" (onClick)="displayUsernameDialog = false" />
+    </div>
+  </div>
+</p-dialog>
+
+<!-- Import Data Dialog -->
+<p-dialog header="Import Data" [(visible)]="displayImportDialog" [modal]="true" [style]="{ width: '400px' }">
+  <div class="dialog-content">
+    <input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls" />
+<!--    <p-fileupload #fu mode="basic" chooseLabel="Choose" chooseIcon="pi pi-upload" accept=".xlsx, .xls" maxFileSize="1000000" (onUpload)="onFileUpload($event)" />-->
+<!--    <p-button label="Upload" (onClick)="fu.upload()" severity="secondary" />-->
+
+<!--    <p-fileupload mode="basic" name="demo[]" chooseIcon="pi pi-upload" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000" (onUpload)="onFileUpload($event)" [auto]="true" chooseLabel="Browse" />-->
+    <div class="dialog-actions">
+      <p-button label="Cancel" severity="secondary" (onClick)="displayImportDialog = false" />
+    </div>
+  </div>
+</p-dialog>
+
+<!-- Email Dialog -->
+<p-dialog header="Email" [(visible)]="displayEmailDialog" [modal]="true" [style]="{ width: '400px' }">
+  <div class="dialog-content">
+    <p>{{ selectedSite.email }}</p>
+    <div class="dialog-actions">
+      <p-button label="Copy" severity="secondary" (onClick)="copyToClipboard(selectedSite.email)" />
+      <p-button label="Close" severity="primary" (onClick)="displayEmailDialog = false" />
+    </div>
+  </div>
+</p-dialog>
+
+<!-- Password Dialog -->
+<p-dialog header="Password" [(visible)]="displayPasswordDialog" [modal]="true" [style]="{ width: '400px' }">
+  <div class="dialog-content">
+    <p>{{ selectedSite.password }}</p>
+    <div class="dialog-actions">
+      <p-button label="Copy" severity="secondary" (onClick)="copyToClipboard(selectedSite.password)" />
+      <p-button label="Close" severity="primary" (onClick)="displayPasswordDialog = false" />
+    </div>
+  </div>
+</p-dialog>
+
+<!-- Add Site Dialog -->
+<p-dialog header="Add New Site" [(visible)]="displayAddDialog" [modal]="true" [style]="{ width: '400px' }">
+  <form (ngSubmit)="addSite()">
+    <div class="p-field">
+      <label for="newName">Name</label>
+      <input id="newName" pInputText [(ngModel)]="newSite.name" name="name" required />
+    </div>
+    <div class="p-field">
+      <label for="newUrl">URL</label>
+      <input id="newUrl" pInputText [(ngModel)]="newSite.url" name="url" required />
+    </div>
+    <div class="p-field">
+      <label for="category">Category</label>
+      <input id="category" pInputText [(ngModel)]="newSite.category" name="category" required />
+    </div>
+    <div class="p-field">
+      <label for="tags">Tags</label>
+      <input id="tags" pInputText [(ngModel)]="newSite.tags" name="tags" required />
+    </div>
+    <div class="p-field">
+      <label for="newUsername">Username</label>
+      <input id="newUsername" pInputText [(ngModel)]="newSite.username" name="username" required />
+    </div>
+    <div class="p-field">
+      <label for="newEmail">Email</label>
+      <input id="newEmail" pInputText [(ngModel)]="newSite.email" name="email" required />
+    </div>
+    <div class="p-field">
+      <label for="newPassword">Password</label>
+      <input id="newPassword" pInputText [(ngModel)]="newSite.password" name="password" required />
+    </div>
+    <div class="p-dialog-footer">
+      <button type="button" pButton label="Cancel" (click)="displayAddDialog = false"></button>
+      <button type="submit" pButton label="Add" severity="primary"></button>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- Update Site Dialog -->
+<p-dialog header="Update Site" [(visible)]="displayUpdateDialog" [modal]="true" [style]="{ width: '400px' }">
+  <form (ngSubmit)="updateSite()">
+    <div class="p-field">
+      <label for="username">Username</label>
+      <input id="username" pInputText [(ngModel)]="selectedSite.username" name="username" required />
+    </div>
+    <div class="p-field">
+      <label for="email">Email</label>
+      <input id="email" pInputText [(ngModel)]="selectedSite.email" name="email" required />
+    </div>
+    <div class="p-field">
+      <label for="password">Password</label>
+      <input id="password" pInputText [(ngModel)]="selectedSite.password" name="password" required />
+    </div>
+    <div class="p-dialog-footer">
+      <button type="button" pButton label="Cancel" (click)="displayUpdateDialog = false"></button>
+      <button type="submit" pButton label="Save" severity="primary"></button>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- Remove Confirmation Dialog -->
+<p-dialog header="Confirm Removal" [(visible)]="displayRemoveConfirmationDialog" [modal]="true" [style]="{ width: '350px' }">
+  <p>Are you sure you want to remove this site?</p>
+  <div class="p-dialog-footer">
+    <button type="button" pButton label="No" (click)="displayRemoveConfirmationDialog = false"></button>
+    <button type="button" pButton label="Yes" severity="danger" (click)="confirmRemove()"></button>
+  </div>
+</p-dialog>

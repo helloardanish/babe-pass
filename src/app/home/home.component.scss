@@ -1,19 +1,66 @@
-.secondary-font {
-  font-family: var(--font-secondary), sans-serif;
+.site-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
 }
 
-.tertiary-font {
-  font-family: var(--font-tertiary), sans-serif;
+.action-buttons {
+  width: 100%;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
 }
 
-.special-font-1 {
-  font-family: var(--special-font-1), sans-serif;
+.site-card {
+  flex: 1 1 300px;
+  max-width: 400px;
 }
 
-.primary-color {
-  color: var(--primary-color);
+.site-name {
+  font-size: 1.5em;
+  font-weight: bold;
 }
 
-.accent-color {
-  color: var(--accent-color);
+.site-url {
+  color: #666;
+  margin-bottom: 10px;
 }
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.open-link {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.dialog-content {
+  text-align: center;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.site-item {
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+  transition: transform 0.3s ease-in-out;
+
+  //display: grid;
+  //grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+
