@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {ButtonModule} from 'primeng/button';
-import {InputMask} from 'primeng/inputmask';
 import {FormsModule} from '@angular/forms';
 
 @Component({
@@ -9,7 +8,6 @@ import {FormsModule} from '@angular/forms';
   imports: [
     RouterOutlet,
     ButtonModule,
-    InputMask,
     FormsModule
   ],
   templateUrl: './app.component.html',

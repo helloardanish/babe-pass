@@ -3,3 +3,8 @@
 ```sh
 npm install primeng @primeng/themes
 ```
+
+
+```sh
+ng g c home
+```
